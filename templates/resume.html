@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row text-center mb-4">
+    <div class="col">
+        <img src="{{ url_for('static', filename='images/photo.jpg') }}" alt="Моє фото" class="profile-img">
+        <h1 class="mt-3">Тимощук Богдана</h1>
+        <p class="lead">Студентка / Початківець розробник</p>
+    </div>
+</div>
+
+<section id="about">
+    <h2>Про себе</h2>
+    <p>Я студентка, вивчаю програмування та веб-розробку. Обожнюю створювати нові проекти.</p>
+</section>
+
+<section id="education">
+    <h2>Освіта</h2>
+    
+        Карпатський національний університет імені Василя Стефаника
+            <br>Спеціальність 121 "Інженерія програмного забезпечення"
+    
+</section>
+
+<section id="skills">
+    <h2>Навички та Технології</h2>
+    <ul>
+        <li>Python, Flask</li>
+        <li>HTML, CSS, Bootstrap</li>
+        <li>Git, GitHub</li>
+    </ul>
+</section>
+
+<section id="projects">
+    <h2>Проєкти</h2>
+    <p>Розробка сайту-візитки на Flask.</p>
+</section>
+{% endblock %}
