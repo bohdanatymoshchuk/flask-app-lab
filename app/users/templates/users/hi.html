@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Greeting Page{% endblock %}
+
+{% block content %}
+<div class="row mt-4">
+
+    <div class="col-md-3">
+        <div class="list-group">
+            <span class="list-group-item disabled bg-light text-muted fw-bold">Flask App</span>
+            <a href="{{ url_for('users.greetings', name='john') }}" class="list-group-item list-group-item-action">Greet John</a>
+            <a href="{{ url_for('users.admin') }}" class="list-group-item list-group-item-action">Admin</a>
+        </div>
+    </div>
+
+    <div class="col-md-8 ms-3">
+        <h1 class="display-3 text-secondary mb-4">Hello :)</h1>
+        
+        <p class="fs-3">
+            <strong>User:</strong> {{ name }}
+        </p>
+
+        {% if age %}
+            <p class="fs-3 text-success fw-bold">
+                Age: {{ age }}
+            </p>
+        {% else %}
+            <p class="fs-3 text-danger fw-bold">
+                Age: Not provided
+            </p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

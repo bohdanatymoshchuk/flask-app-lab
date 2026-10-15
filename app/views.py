@@ -1,12 +1,14 @@
-from flask import request, render_template
-from . import app
+from flask import Blueprint, request, render_template, redirect, url_for
 
-@app.route('/')
-def main():
-    return render_template("resume.html", title="Головна")
+users_bp = Blueprint('users', __name__, template_folder='templates/users', url_prefix='/users')
 
-@app.route('/homepage')
-def home():
-    """View for the Home page of website."""
-    agent = request.user_agent
-    return render_template("homepage.html", agent=agent, title="Домашня сторінка")
+@users_bp.route("/hi/<string:name>")
+def greetings(name):
+    name = name.upper()
+    age = request.args.get("age", None, int)
+    return render_template("users/hi.html", name=name, age=age)
+
+@users_bp.route("/admin")
+def admin():
+    to_url = url_for("users.greetings", name="administrator", age=45, _external=True)
+    return redirect(to_url)
