@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <a href="{{ url_for('products.list_products') }}" class="btn btn-outline-secondary mb-3">← Назад до товарів</a>
+    
+    <div class="card p-3">
+        <div class="card-body">
+            <h2 class="card-title">{{ product.name }}</h2>
+            <h4 class="text-success my-3">Ціна: ${{ product.price }}</h4>
+            <p class="card-text fs-5">{{ product.content }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
