@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mt-4">
+    <h2>Ласкаво просимо до сторінки Інфо, {{ username }}!</h2>
+    <p>Тут ви можете отримати інформацію та вийти з системи.</p>
+    
+    <a href="{{ url_for('users.logout') }}" class="btn btn-danger mb-4">Вийти</a>
+
+    <div class="mb-4 card p-3">
+        <h5>Вибір кольорової схеми:</h5>
+        <div>
+            <a href="{{ url_for('users.set_theme', theme='light') }}" class="btn btn-outline-secondary btn-sm me-2">Світла тема</a>
+            <a href="{{ url_for('users.set_theme', theme='dark') }}" class="btn btn-outline-dark btn-sm">Темна тема</a>
+        </div>
+    </div>
+
+    <hr>
+
+    <h4>Додати кукі:</h4>
+    <form method="POST" action="{{ url_for('users.add_cookie') }}" class="row g-3 mb-4">
+        <div class="col-md-4">
+            <input type="text" name="key" class="form-control" placeholder="Ключ кукі" required>
+        </div>
+        <div class="col-md-4">
+            <input type="text" name="value" class="form-control" placeholder="Значення кукі" required>
+        </div>
+        <div class="col-md-2">
+            <input type="number" name="max_age" class="form-control" placeholder="Термін (сек)">
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-success w-100">Додати кукі</button>
+        </div>
+    </form>
+
+    <h4>Видалити кукі за ключем:</h4>
+    <form method="POST" action="{{ url_for('users.delete_cookie') }}" class="row g-3 mb-4">
+        <div class="col-md-8">
+            <input type="text" name="key" class="form-control" placeholder="Ключ кукі для видалення" required>
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-warning w-100">Видалити кукі за ключем</button>
+        </div>
+    </form>
+
+
+    <h4>Видалити всі кукі:</h4>
+    <form method="POST" action="{{ url_for('users.delete_all_cookies') }}" class="mb-4">
+        <button type="submit" class="btn btn-danger">Видалити всі кукі</button>
+    </form>
+
+    <h4>Список всіх кукі:</h4>
+    <table class="table table-bordered mt-2">
+        <thead>
+            <tr>
+                <th>Ключ</th>
+                <th>Значення</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, val in cookies.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>{{ val }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
