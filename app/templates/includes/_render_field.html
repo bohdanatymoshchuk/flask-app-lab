@@ -1,0 +1,19 @@
+{% macro render_field(field) %}
+  <div class="mb-3">
+    {{ field.label(class="form-label") }}
+    
+    {% if field.type == 'SelectField' %}
+      {{ field(class="form-select " + ("is-invalid" if field.errors else ""), **kwargs) }}
+    {% else %}
+      {{ field(class="form-control " + ("is-invalid" if field.errors else ""), **kwargs) }}
+    {% endif %}
+
+    {% if field.errors %}
+      <ul class="list-group mt-1">
+        {% for error in field.errors %}
+          <li class="list-group-item list-group-item-danger py-1 px-2 small">{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+{% endmacro %}
