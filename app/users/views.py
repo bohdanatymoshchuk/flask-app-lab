@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, make_response
 
-users_bp = Blueprint('users', __name__, template_folder='templates')
+users_bp = Blueprint('users', __name__, url_prefix='/users')
 
 USERS_DATA = {
     "admin": "1234",
@@ -94,3 +94,4 @@ def set_theme(theme):
         resp.set_cookie('theme', theme, max_age=3600*24*30)
         flash(f'Встановлено тему: {theme}', 'info')
     return resp
+
