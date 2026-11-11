@@ -34,3 +34,7 @@ def contact():
         return redirect(url_for('contact'))
 
     return render_template('contact.html', form=form, title='Контакти')
+
+@app.errorhandler(404)
+def not_found(e):
+    return render_template('errors/404.html', title='Не знайдено'), 404

@@ -36,3 +36,11 @@ def add_product():
         flash('Виправте помилки у формі.', 'danger')
     return render_template('products/product_form.html', form=form,
                            product=None, title='Додати товар')
+
+@products_bp.route('/<int:product_id>')
+def detail_product(product_id):
+    product = storage.get_by_id(product_id)
+    if product is None:
+        abort(404)
+    return render_template('products/detail_product.html', product=product,
+                           categories=dict(CATEGORIES), title=product['name'])
