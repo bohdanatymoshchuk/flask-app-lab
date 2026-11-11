@@ -1,5 +1,5 @@
 import logging
-from flask import render_template, redirect, url_for, flash
+from flask import render_template, redirect, url_for, flash, request
 from app import app
 from app.forms import ContactForm
 
@@ -38,3 +38,8 @@ def contact():
 @app.errorhandler(404)
 def not_found(e):
     return render_template('errors/404.html', title='Не знайдено'), 404
+
+@app.errorhandler(413)
+def too_large(e):
+    flash('Файл завеликий. Максимальний розмір зображення — 2 МБ.', 'danger')
+    return redirect(request.referrer or url_for('products.list_products'))

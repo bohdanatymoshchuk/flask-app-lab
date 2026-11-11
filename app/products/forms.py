@@ -1,10 +1,12 @@
 from decimal import Decimal
 
+from flask import current_app
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 from wtforms import (StringField, TextAreaField, DecimalField, SelectField,
                      IntegerField, SubmitField)
 from wtforms.validators import (DataRequired, InputRequired, Length,
-                                NumberRange, ValidationError)
+                                NumberRange, Optional, ValidationError)
 
 CATEGORIES = [
     ('electronics', 'Електроніка'),
@@ -22,8 +24,17 @@ def two_decimal_places(form, field):
     exp = field.data.as_tuple().exponent
     if isinstance(exp, int) and exp < -2:
         raise ValidationError('Ціна може мати не більше двох знаків після коми.')
-
-
+    
+def max_image_size(form, field):
+    f = field.data
+    if f is None or not getattr(f, 'filename', ''):
+        return
+    f.stream.seek(0, 2)
+    size = f.stream.tell()
+    f.stream.seek(0)
+    limit = current_app.config['MAX_IMAGE_SIZE']
+    if size > limit:
+        raise ValidationError(f'Файл завеликий (максимум {limit // 1024} КБ).')
 class ProductForm(FlaskForm):
     name = StringField('Назва', validators=[
         DataRequired(message='Вкажіть назву товару.'),
@@ -43,6 +54,11 @@ class ProductForm(FlaskForm):
     quantity = IntegerField('Кількість', validators=[
         InputRequired(message='Вкажіть кількість.'),
         NumberRange(min=0, message='Кількість не може бути від’ємною.'),
+    ])
+    image = FileField('Зображення', validators=[
+        Optional(),
+        FileAllowed(['jpg', 'jpeg', 'png'], message='Дозволені формати: jpg, jpeg, png.'),
+        max_image_size,
     ])
     submit = SubmitField('Зберегти')
 

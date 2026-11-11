@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% from 'includes/_product_image.html' import product_image %}
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block content %}
@@ -7,6 +7,7 @@
   <a href="{{ url_for('products.list_products') }}" class="btn btn-outline-secondary mb-3">← Назад до товарів</a>
 
   <div class="card">
+    {{ product_image(product, 300) }}
     <div class="card-body">
       <h2 class="card-title">{{ product.name }}</h2>
       <h4 class="text-success my-3">Ціна: ${{ '%.2f'|format(product.price) }}</h4>

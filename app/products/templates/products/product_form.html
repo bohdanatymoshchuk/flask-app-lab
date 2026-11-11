@@ -16,6 +16,12 @@
     {{ render_field(form.category) }}
     {{ render_field(form.quantity, min='0') }}
 
+    {% if product and product.image %}
+      <p class="mb-1">Поточне зображення:</p>
+      <img src="{{ url_for('products.static', filename=product.image) }}" class="img-thumbnail mb-2" style="max-height:150px" alt="{{ product.name }}">
+    {% endif %}
+    {{ render_field(form.image, accept='.png,.jpg,.jpeg') }}
+
     <div class="d-flex gap-2">
       {{ form.submit(class="btn btn-dark") }}
       <a href="{{ url_for('products.list_products') }}" class="btn btn-outline-secondary">Скасувати</a>
