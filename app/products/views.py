@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, abort
 
 from app.products import storage
-from app.products.forms import ProductForm, CATEGORIES
+from app.products.forms import ProductForm, DeleteForm, CATEGORIES
 
 products_bp = Blueprint(
     'products', __name__,
@@ -43,7 +43,8 @@ def detail_product(product_id):
     if product is None:
         abort(404)
     return render_template('products/detail_product.html', product=product,
-                           categories=dict(CATEGORIES), title=product['name'])
+                           categories=dict(CATEGORIES), title=product['name'],
+                           delete_form=DeleteForm())
 
 @products_bp.route('/<int:product_id>/edit', methods=['GET', 'POST'])
 def edit_product(product_id):
@@ -70,3 +71,14 @@ def edit_product(product_id):
         flash('Виправте помилки у формі.', 'danger')
     return render_template('products/product_form.html', form=form,
                            product=product, title='Редагувати товар')
+
+@products_bp.route('/<int:product_id>/delete', methods=['POST'])
+def delete_product(product_id):
+    if not DeleteForm().validate_on_submit():   # перевірка CSRF
+        abort(400)
+    product = storage.get_by_id(product_id)
+    if product is None:
+        abort(404)
+    storage.delete(product_id)
+    flash('Товар видалено.', 'success')
+    return redirect(url_for('products.list_products'))
