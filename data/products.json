@@ -1,0 +1,14 @@
+{
+    "products": {
+        "1": {
+            "id": 1,
+            "name": "computer",
+            "content": "good",
+            "price": 3400.0,
+            "category": "electronics",
+            "quantity": 1,
+            "image": null,
+            "created_at": "2026-11-11T23:56:58"
+        }
+    }
+}
