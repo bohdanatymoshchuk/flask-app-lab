@@ -44,3 +44,29 @@ def detail_product(product_id):
         abort(404)
     return render_template('products/detail_product.html', product=product,
                            categories=dict(CATEGORIES), title=product['name'])
+
+@products_bp.route('/<int:product_id>/edit', methods=['GET', 'POST'])
+def edit_product(product_id):
+    product = storage.get_by_id(product_id)
+    if product is None:
+        abort(404)
+
+    # image не передаємо, щоб рядок-шлях не потрапив у FileField
+    initial = {k: v for k, v in product.items() if k != 'image'}
+    form = ProductForm(data=initial)
+
+    if form.validate_on_submit():
+        storage.update(product_id, {
+            'name': form.name.data,
+            'content': form.content.data,
+            'price': float(form.price.data),
+            'category': form.category.data,
+            'quantity': form.quantity.data,
+        })
+        flash('Зміни збережено!', 'success')
+        return redirect(url_for('products.detail_product', product_id=product_id))
+
+    if form.is_submitted():
+        flash('Виправте помилки у формі.', 'danger')
+    return render_template('products/product_form.html', form=form,
+                           product=product, title='Редагувати товар')

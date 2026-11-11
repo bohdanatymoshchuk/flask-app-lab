@@ -18,7 +18,7 @@
       <p class="small text-muted">ID: {{ product.id }} · Додано: {{ product.created_at.replace('T', ' ') }}</p>
 
       <div class="mt-3">
-        {# тут будуть кнопки "Редагувати" і "Видалити" #}
+       <a href="{{ url_for('products.edit_product', product_id=product.id) }}" class="btn btn-warning">Редагувати</a>
       </div>
     </div>
   </div>
