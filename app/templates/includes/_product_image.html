@@ -1,0 +1,7 @@
+{% macro product_image(product, height=200) %}
+  {% set no_img = url_for('static', filename='images/no-image.svg') %}
+  {% set src = url_for('products.static', filename=product.image) if product.image else no_img %}
+  <img src="{{ src }}" alt="{{ product.name }}" class="card-img-top"
+       style="height: {{ height }}px; object-fit: cover;"
+       onerror="this.onerror=null;this.src='{{ no_img }}';">
+{% endmacro %}

@@ -2,3 +2,6 @@
 __pycache__/
 *.pyc
 .env
+
+   app/products/static/uploads/*
+   !app/products/static/uploads/.gitkeep
